@@ -44,17 +44,17 @@ end
 new_cart 
 end
 
-def apply_coupons(cart, coupons) #takes in a cart and our coupons and needs to create a new cart with all the coupons in it. #have to loop through all of the coupons. loop through each of coupons to see if they apply. 
+def apply_coupons(cart, coupons) #takes in a cart and our coupons and needs to create a new cart with all the coupons in it. #have to loop through all of the coupons. loop through each of coupons to see if they apply to items in our cart. 
 counter = 0 
 while counter < coupons.length do 
-cart_item = find_item_by_name_in_collection(coupons[counter][:item] , cart ) #returns name of item on coupon and see if it exists in our cart
+cart_item = find_item_by_name_in_collection(coupons[counter][:item] , cart ) #returns name of item on coupon and sees if it exists in our cart
 #setting it equal to the result of the find_item_by_name_in_collection method
 couponed_item_name = "#{coupons[counter][:item]} W/COUPON" #setting up variable. interpolating item name into a string with coupon.
-cart_item_with_coupon = find_item_by_name_in_collection(couponed_item_name, cart) #will either be an item name w/ coupon or nil.
-if cart_item && cart_item[:count] >= coupons[counter][:num]#seeing if item is in the cart and if there is enough of that item in cart for coupon to apply. if count is greater than or equal to the number of that item on the coupon we're looking at right now.
+cart_item_with_coupon = find_item_by_name_in_collection(couponed_item_name, cart) #want to check if item with coupon above already exists in our cart. will either be an item name w/ coupon or nil.
+if cart_item && cart_item[:count] >= coupons[counter][:num]#seeing if item is in the cart and if there is enough of that item in cart for coupon to apply. sees if count is greater than or equal to the number of that item on the coupon we're looking at right now.
 if cart_item_with_coupon
   cart_item_with_coupon[:count] += coupons[counter][:num] #if cart item with coupon exists we take that count and increase it by the number of items on our coupon
-  cart_item[:count] -= coupons[counter][:num]#subtract the number that that coupon applied to from that number in our cart... ask a question on this one?? what is this subtract line doing exactly and why do we need it?
+  cart_item[:count] -= coupons[counter][:num]#if we apply a coupon to an item in our cart, we need to also make sure we subtract the count that that coupon applied to from that item in our cart... ask a question on this one?? what is this subtract line doing exactly and why do we need it? count of items in  cart - and equal to the count of items that coupon applies to 
 else 
   cart_item_with_coupon = {
     :item => couponed_item_name, 
